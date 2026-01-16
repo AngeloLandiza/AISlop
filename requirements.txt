@@ -30,6 +30,7 @@ requests>=2.31.0                    # HTTP requests
 
 # UI
 streamlit>=1.31.0                   # Simple web UI dashboard
+streamlit-autorefresh>=1.0.1        # Auto-refresh UI elements
 
 # =============================================================================
 # EXTERNAL DEPENDENCIES (install separately)

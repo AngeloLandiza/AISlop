@@ -60,6 +60,7 @@ OUTPUT_DIR = PROJECT_DIR / "output"
 VIDEOS_DIR = PROJECT_DIR / "videos"
 DB_FILE = PROJECT_DIR / "analytics.db"
 VERSION_FILE = PROJECT_DIR / "VERSION"
+SCHEDULE_STATE_FILE = LOGS_DIR / "schedule_state.json"
 
 def get_version() -> str:
     try:
@@ -486,6 +487,9 @@ class YouTubeShortsAutomation:
         Default: 3x daily at 8 AM, 2 PM, 8 PM (configurable in config.yaml)
         """
         schedule_config = self.config.get('schedule', {})
+        if not schedule_config.get('enabled', True):
+            self.logger.info("Scheduling is disabled in config.yaml (schedule.enabled=false)")
+            return
         random_config = schedule_config.get('random', {})
         random_enabled = random_config.get('enabled', False)
 
@@ -514,6 +518,7 @@ class YouTubeShortsAutomation:
         for time_str in schedule_times:
             schedule.every().day.at(time_str).do(self.run_with_retry)
             self.logger.info(f"✓ Scheduled at {time_str}")
+        self._write_schedule_state(schedule_times, mode="fixed")
 
     def _schedule_random_times(self, random_config: Dict[str, Any]):
         """Schedule random daily times within configured windows."""
@@ -540,6 +545,9 @@ class YouTubeShortsAutomation:
             for time_str in times:
                 schedule.every().day.at(time_str).do(self.run_with_retry).tag("random")
                 self.logger.info(f"✓ Random scheduled at {time_str} (window {start}-{end})")
+        # Persist today's randomly generated times
+        all_times = [job.at_time.strftime("%H:%M") for job in schedule.jobs if "random" in job.tags]
+        self._write_schedule_state(sorted(set(all_times)), mode="random")
 
         # Regenerate random schedule daily
         regenerate_at = random_config.get('regenerate_at', '00:05')
@@ -582,6 +590,20 @@ class YouTubeShortsAutomation:
             m = minute % 60
             times.append(f"{h:02d}:{m:02d}")
         return times
+
+    def _write_schedule_state(self, times: List[str], mode: str):
+        """Write schedule state for the UI to show next run."""
+        try:
+            LOGS_DIR.mkdir(exist_ok=True)
+            payload = {
+                "mode": mode,
+                "times": times,
+                "generated_at": datetime.now().isoformat()
+            }
+            with open(SCHEDULE_STATE_FILE, "w") as f:
+                json.dump(payload, f, indent=2)
+        except Exception as e:
+            self.logger.warning(f"Could not write schedule state: {e}")
 
 
 # =============================================================================
