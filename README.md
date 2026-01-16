@@ -18,24 +18,23 @@ Fully automated system for generating and uploading viral YouTube Shorts using A
 
 ## 🚀 Quick Start (5 Minutes)
 
-### Step 1: Install Dependencies
+### Step 1: Install Dependencies (One Script)
 
 ```bash
-# Create virtual environment
+python setup_env.py
+```
+
+This script:
+- Creates `venv`
+- Installs Python dependencies
+- Creates `credentials/`
+- Checks FFmpeg and prints OS-specific install steps
+
+```bash
+# (Manual alternative if you don't want the script)
 python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install Python packages
+source venv/bin/activate  # Windows PowerShell: .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-
-# Install FFmpeg (required for video processing)
-# macOS:
-brew install ffmpeg
-
-# Ubuntu/Debian:
-sudo apt-get install ffmpeg
-
-# Windows: Download from https://ffmpeg.org/download.html
 ```
 
 ### Step 2: Get API Keys & Credentials
@@ -156,6 +155,12 @@ Edit `config.yaml` or use the UI to customize:
 
 ```bash
 streamlit run app.py
+```
+
+### Windows PowerShell Note
+If you see encoding errors (charmap codec), run:
+```powershell
+$env:PYTHONUTF8=1
 ```
 
 The UI lets you:
