@@ -1,0 +1,41 @@
+# =============================================================================
+# YouTube Shorts Automation - Python Dependencies
+# =============================================================================
+# Install with: pip install -r requirements.txt
+# =============================================================================
+
+# Core AI/LLM
+cohere>=5.0.0                       # Story generation (free tier: 1,000/month)
+anthropic>=0.25.0                   # Alternative story generation (optional)
+
+# Text-to-Speech
+# gTTS is the DEFAULT (easy, no setup) - Piper is optional (better quality)
+gtts>=2.5.0                         # Google TTS - FREE, online, easy setup (DEFAULT)
+# piper-tts>=1.2.0                  # Piper TTS - offline (uncomment if needed)
+
+# YouTube API
+google-auth>=2.25.0                 # Authentication
+google-auth-oauthlib>=1.2.0         # OAuth for YouTube
+google-api-python-client>=2.111.0   # YouTube Data API
+
+# Audio/Video Processing
+librosa>=0.10.1                     # Audio analysis for word timing
+numpy>=1.24.0                       # Numerical operations
+
+# Scheduling & Utilities
+schedule>=1.2.1                     # Task scheduling
+pyyaml>=6.0.1                       # YAML configuration
+python-dotenv>=1.0.0                # Environment variable loading
+requests>=2.31.0                    # HTTP requests
+
+# UI
+streamlit>=1.31.0                   # Simple web UI dashboard
+
+# =============================================================================
+# EXTERNAL DEPENDENCIES (install separately)
+# =============================================================================
+# FFmpeg - Required for video composition
+#   macOS:   brew install ffmpeg
+#   Ubuntu:  sudo apt-get install ffmpeg
+#   Windows: Download from https://ffmpeg.org/download.html
+# =============================================================================

@@ -1,0 +1,122 @@
+.venv/
+venv/
+credentials/
+client_secret.json
+youtube_token*.pickle
+output/
+logs/
+.vosk_model/
+__pycache__/
+.DS_Store
+# =============================================================================
+# YouTube Shorts Automation - Git Ignore
+# =============================================================================
+# Protects sensitive files from being committed to version control
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# API Keys & Credentials (CRITICAL - Never commit these!)
+# -----------------------------------------------------------------------------
+client_secret.json
+google-credentials.json
+youtube_token.pickle
+*.pickle
+.env
+.env.local
+.env.production
+
+# Config with real API keys
+# Note: config.yaml template is committed, but add it here if you fill in keys
+# config.yaml
+
+# Piper TTS voice models (downloaded automatically)
+.piper/
+
+# -----------------------------------------------------------------------------
+# Generated Files
+# -----------------------------------------------------------------------------
+# Output videos
+output/
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+
+# Audio files
+*.mp3
+*.wav
+*.ogg
+
+# Story cache
+stories_queue.json
+
+# -----------------------------------------------------------------------------
+# Logs & Database
+# -----------------------------------------------------------------------------
+logs/
+*.log
+analytics.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Upload history
+uploads.jsonl
+
+# -----------------------------------------------------------------------------
+# Python
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# -----------------------------------------------------------------------------
+# IDE & Editor
+# -----------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# -----------------------------------------------------------------------------
+# Testing
+# -----------------------------------------------------------------------------
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# -----------------------------------------------------------------------------
+# Misc
+# -----------------------------------------------------------------------------
+*.bak
+*.tmp
+*.temp

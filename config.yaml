@@ -1,0 +1,306 @@
+# =============================================================================
+# YouTube Shorts Automation Configuration
+# =============================================================================
+#
+# ██████╗ ██████╗ ███████╗██████╗ ███████╗███╗   ██╗████████╗██╗ █████╗ ██╗     ███████╗
+# ██╔════╝██╔══██╗██╔════╝██╔══██╗██╔════╝████╗  ██║╚══██╔══╝██║██╔══██╗██║     ██╔════╝
+# ██║     ██████╔╝█████╗  ██║  ██║█████╗  ██╔██╗ ██║   ██║   ██║███████║██║     ███████╗
+# ██║     ██╔══██╗██╔══╝  ██║  ██║██╔══╝  ██║╚██╗██║   ██║   ██║██╔══██║██║     ╚════██║
+# ╚██████╗██║  ██║███████╗██████╔╝███████╗██║ ╚████║   ██║   ██║██║  ██║███████╗███████║
+#  ╚═════╝╚═╝  ╚═╝╚══════╝╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝
+#
+# IMPORTANT: Fill in the credentials below before running!
+# DO NOT commit this file to version control with real keys!
+# =============================================================================
+
+# =============================================================================
+#  🔑 API KEYS & CREDENTIALS (FILL THESE IN FIRST!)
+# =============================================================================
+
+APIs:
+  # -------------------------------------------------------------------------
+  # COHERE API KEY (Required for story generation)
+  # -------------------------------------------------------------------------
+  # Get your FREE key at: https://dashboard.cohere.ai/api-keys
+  # Free tier: 1,000 API calls per month
+  cohere:
+    api_key: "REDACTED_COHERE_KEY"  # <-- PASTE YOUR COHERE API KEY HERE
+
+  # -------------------------------------------------------------------------
+  # CLAUDE API KEY (Optional - fallback for story generation)
+  # -------------------------------------------------------------------------
+  # Get your key at: https://console.anthropic.com/
+  # Free trial: $5 credit
+  claude:
+    api_key: ""  # <-- PASTE YOUR CLAUDE API KEY HERE (optional)
+
+# -----------------------------------------------------------------------------
+# YOUTUBE CHANNEL SETTINGS
+# -----------------------------------------------------------------------------
+# To upload videos, you need:
+# 1. A client_secret.json file in the project directory
+#    (Download from Google Cloud Console → APIs → YouTube Data API v3)
+# 2. Run: python main.py --auth
+# 3. Set your channel_id below (recommended for multi-channel accounts)
+
+youtube:
+  # YOUR CHANNEL ID (Recommended)
+  # =============================
+  # How to find your Channel ID:
+  #   1. Go to https://www.youtube.com
+  #   2. Click your profile → "Your channel"
+  #   3. The URL will be: youtube.com/channel/UC...
+  #   4. Copy the UC... part (starts with UC, ~24 characters)
+  channel_id: "REDACTED_CHANNEL_ID"  # <-- PASTE YOUR CHANNEL ID HERE
+
+  # Default tags for all videos
+  default_tags:
+    - "story"
+    - "emotional"
+    - "viral"
+    - "shorts"
+    - "reddit"
+    - "askreddit"
+
+  # Shorts / Reels mode (force Shorts-style metadata)
+  shorts_mode: true
+  shorts_hashtags:
+    - "#shorts"
+    - "#youtubeshorts"
+
+  # Video privacy: "public", "private", or "unlisted"
+  privacy_status: "public"
+
+  # Category ID (22 = People & Blogs - best for story content)
+  category_id: "22"
+
+# =============================================================================
+#  🎛️  AUTOMATION MODE
+# =============================================================================
+
+automation:
+  # AUTO-POST MODE
+  # ===============
+  # true  = Fully automatic - videos post without review
+  # false = Review mode - preview content before posting (you decide yes/no)
+  auto_post: false
+  # RUN COUNT DEFAULT (for --run without a number)
+  run_times_default: 1
+
+# =============================================================================
+#  🎬 AI BACKGROUND GENERATION
+# =============================================================================
+
+background:
+  # AUTO-GENERATE BACKGROUNDS
+  # ==========================
+  # true  = Generate fresh AI backgrounds for each video (uses Pollinations.ai - FREE)
+  # false = Use static videos from videos/ folder only
+  auto_generate: false
+
+  # STYLES TO USE (pick which ones you want)
+  # Options: minecraft_parkour, subway_surfers, satisfying_abstract, 
+  #          nature_calming, gaming_aesthetic
+  styles:
+    - "minecraft_parkour"
+    - "subway_surfers"
+
+  # REUSE CHANCE (0.0 to 1.0)
+  # To save API calls, there's a chance to reuse an existing generated background
+  # 0.0 = always generate new, 1.0 = always reuse existing
+  reuse_chance: 0.2
+
+# =============================================================================
+#  ⚙️  APPLICATION SETTINGS (Usually don't need to change)
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Text-to-Speech Settings
+# -----------------------------------------------------------------------------
+# TTS Options: "elevenlabs" (best quality), "gtts" (free), "piper" (offline)
+tts:
+  # CHOOSE YOUR TTS PROVIDER
+  # ========================
+  # "gtts"       - Google TTS (free, unlimited, good for commercial use)
+  # "piper"      - Offline TTS (requires setup)
+  provider: "gtts"
+  
+  # SPEECH SPEED MULTIPLIER (applies to all providers)
+  # ===================================================
+  # 1.0 = normal speed
+  # 1.2 = 20% faster (recommended for viral shorts)
+  # 1.5 = 50% faster
+  # 0.8 = 20% slower
+  speed: 1.0
+  
+  # =========================================================================
+  # ELEVENLABS SETTINGS (Best quality - FREE tier: 10,000 characters/month)
+  # =========================================================================
+  # Sign up at: https://elevenlabs.io (free account)
+  # Get API key from: https://elevenlabs.io/app/settings/api-keys
+  elevenlabs:
+    api_key: ""                        # <-- PASTE YOUR ELEVENLABS API KEY HERE
+    
+    # VOICE SELECTION
+    # ================
+    # Popular free voices (voice_id):
+    #   "Rachel"      - Warm, conversational female (great for stories)
+    #   "Drew"        - Well-rounded male voice
+    #   "Clyde"       - Deep male voice (good for dramatic stories)
+    #   "Paul"        - News anchor style male
+    #   "Domi"        - Strong, confident female
+    #   "Dave"        - Conversational British male
+    #   "Fin"         - Irish male accent
+    #   "Sarah"       - Soft, gentle female
+    #   "Antoni"      - Well-rounded male
+    #   "Thomas"      - Calm American male
+    #   "Charlie"     - Australian casual male
+    #   "George"      - British narrator style
+    #   "Emily"       - Calm American female
+    #   "Elli"        - Emotional female voice
+    #   "Callum"      - Intense male voice
+    voice: "Rachel"                    # Voice name (see list above)
+    
+    # Voice settings
+    model: "eleven_multilingual_v2"    # Best quality model
+    stability: 0.5                     # 0.0-1.0 (lower = more expressive)
+    similarity_boost: 0.75             # 0.0-1.0 (higher = closer to original)
+  
+  # gTTS Settings (Google Translate TTS - free, unlimited)
+  gtts:
+    language: "en"                     # Language code
+    slow: false                        # Slower speech for clarity
+  
+  # Piper Settings (offline, requires additional setup)
+  piper:
+    voice: "en_US-lessac-medium"       # Voice model
+    speaker_id: 0                      # Speaker ID for multi-speaker models
+    speed: 1.0                         # Speech speed (additional to global)
+    data_dir: "./.piper"               # Where voice models are stored
+
+# -----------------------------------------------------------------------------
+# Scheduling
+# -----------------------------------------------------------------------------
+schedule:
+  # Upload times (24-hour format)
+  # Default: 8 AM, 2 PM, 8 PM
+  times:
+    - "08:00"
+    - "14:00"
+    - "20:00"
+
+  # Timezone (for logging purposes)
+  timezone: "America/Chicago"
+
+  # RANDOM SCHEDULING (optional)
+  # ===========================
+  # Enable to pick random times inside windows (e.g., 3x/day with custom ranges)
+  random:
+    enabled: false
+    # If windows are provided, one random time is picked per window (default).
+    # You can override per-window count using "count" inside a window.
+    per_window_count: 1
+    regenerate_at: "00:05"  # Rebuild random schedule daily at this time
+    windows:
+      - start: "08:00"
+        end: "11:00"
+      - start: "13:00"
+        end: "16:00"
+      - start: "19:00"
+        end: "22:00"
+
+# -----------------------------------------------------------------------------
+# Story Generation Settings
+# -----------------------------------------------------------------------------
+story:
+  # Preferred categories (leave empty for random)
+  # Options: childhood_innocence, accidental_good_deed, second_chance,
+  #          small_moment_big_impact, human_kindness, regret_lesson
+  preferred_categories: []
+
+  # Cache settings
+  cache_enabled: true
+  cache_file: "stories_queue.json"
+
+# -----------------------------------------------------------------------------
+# Video Generation Settings
+# -----------------------------------------------------------------------------
+video:
+  # Output directory for generated videos
+  output_dir: "output"
+
+  # Background videos directory
+  videos_dir: "videos"
+
+  # Video format
+  width: 1080
+  height: 1920
+  fps: 30
+  speed: 1.3                          # Final video playback speed (1.0 = normal)
+  max_duration: 60                     # Max video length (seconds), 0 = no limit
+
+  # VIRAL CAPTION STYLE (TikTok/Shorts style)
+  # ==========================================
+  captions:
+    # Enable viral style (big center word + top context)
+    viral_style: true
+    
+    # WORD GROUPING (how many words per caption)
+    # ===========================================
+    min_words: 1                       # Minimum words per caption
+    max_words: 1                       # Maximum words per caption (set to 1 for one word at a time)
+    
+    # BOUNCE ANIMATION (word pop effect)
+    # ===================================
+    animation:
+      enabled: true                    # Enable bounce effect
+      scale_start: 130                 # Starting scale % (130 = 30% bigger)
+      scale_end: 100                   # Ending scale % (100 = normal)
+      duration_ms: 80                  # Animation duration in milliseconds
+    
+    # CENTER WORD SETTINGS (big pop-up word)
+    center:
+      fontsize: 100                    # Large bold font
+      color: "white"
+      outline_color: "black"
+      outline_width: 5
+      bold: true
+      italic: true
+      position_y: 0.48                 # Vertical position (0=top, 1=bottom)
+    
+    # TOP CONTEXT SETTINGS (running sentence at top)
+    top_context:
+      enabled: false                   # Disable for cleaner look (like reference video)
+      fontsize: 36
+      color: "white"
+      background_color: "black"
+      background_opacity: 0.7
+      position_y: 0.08                 # Near top
+      max_words: 12                    # Max words to show in context
+
+# -----------------------------------------------------------------------------
+# Logging Settings
+# -----------------------------------------------------------------------------
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR
+  level: "INFO"
+
+  # Log directory
+  log_dir: "logs"
+
+  # Keep logs for N days
+  retention_days: 30
+
+# -----------------------------------------------------------------------------
+# Error Handling
+# -----------------------------------------------------------------------------
+error_handling:
+  # Maximum retry attempts for failed operations
+  max_retries: 3
+
+  # Wait time multiplier for exponential backoff (seconds)
+  backoff_multiplier: 2
+
+  # Send email notifications on error (optional)
+  email_notifications: false
+  email_to: ""
