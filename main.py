@@ -35,6 +35,12 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, Dict, Any, List
 from random import uniform
+import platform
+
+# Ensure UTF-8 on Windows only (macOS/Linux default to UTF-8)
+if platform.system() == "Windows":
+    os.environ.setdefault("PYTHONUTF8", "1")
+    os.environ.setdefault("PYTHONIOENCODING", "utf-8")
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))

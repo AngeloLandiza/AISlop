@@ -5,6 +5,8 @@ Streamlit UI for YouTube Shorts Automation.
 
 import json
 import subprocess
+import os
+import platform
 from pathlib import Path
 from typing import Dict, Any
 
@@ -16,6 +18,11 @@ PROJECT_DIR = Path(__file__).parent
 CONFIG_PATH = PROJECT_DIR / "config.yaml"
 CREDENTIALS_DIR = PROJECT_DIR / "credentials"
 CLIENT_SECRET_PATH = CREDENTIALS_DIR / "client_secret.json"
+
+# Ensure UTF-8 on Windows only (macOS/Linux default to UTF-8)
+if platform.system() == "Windows":
+    os.environ.setdefault("PYTHONUTF8", "1")
+    os.environ.setdefault("PYTHONIOENCODING", "utf-8")
 
 
 def load_config() -> Dict[str, Any]:

@@ -17,9 +17,9 @@ REQUIREMENTS = PROJECT_DIR / "requirements.txt"
 CREDENTIALS_DIR = PROJECT_DIR / "credentials"
 
 
-def run(cmd, check=True):
+def run(cmd, check=True, env=None):
     print(f"$ {' '.join(cmd)}")
-    return subprocess.run(cmd, check=check)
+    return subprocess.run(cmd, check=check, env=env)
 
 
 def get_venv_python() -> Path:
@@ -41,7 +41,10 @@ def install_requirements():
     if not venv_python.exists():
         raise RuntimeError("venv python not found. Did venv creation fail?")
     print("Installing Python dependencies...")
-    run([str(venv_python), "-m", "pip", "install", "-r", str(REQUIREMENTS)])
+    env = os.environ.copy()
+    if platform.system() == "Windows":
+        env.setdefault("PYTHONUTF8", "1")
+    run([str(venv_python), "-m", "pip", "install", "-r", str(REQUIREMENTS)], check=True, env=env)
 
 
 def ensure_folders():
